@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <style type="text/css">
+            .ui-diagram-element {   
+                width:8em; 
+                height:3em;     
+                line-height:3em;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+                border-radius: 4px;
+                border: 1px solid transparent;
+                background-color: #98AFC7;
+                color: #ffffff;
+            }
+
+            .ui-diagram-success {
+                background-color: #9CB071;
+                color: #ffffff;
+                border-color: #7ab02c;
+            }
+
+            .ui-diagram-fail {
+                background-color: #C34A2C;
+                color: #ffffff;
+            }
+
+            .flow-label {
+                font-size: 24px;
+                font-weight: bold;
+                color: #816A51;
+            }
+        </style>
+    </h:head>
+    <h:body>
+       <p:panel> 
+            !QUE COMIENCE EL JUEGO¡
+                <p:panel header="Tabla de jugadores" id="pnlVista" style="width: 100%;">
+                    <p:commandButton value="Volver" action="inicioSesion.xhtml" />
+                    <p:commandButton value="#{sesionUsuario.textoVista}"  action="#{sesionUsuario.cambiarVistaUsuario()}" update="pnlVista"/>
+                    <p:dataTable rendered="#{sesionUsuario.textoVista=='Gráfico'}"  value="#{sesionUsuario.listadoUsuario}" var="inf">
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Nombre"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Identificacion"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.identificacion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Nacionalidad"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.nacionalidad}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Tipo de Moto"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.tipoMoto}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Color Moto"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.colorMoto}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Cilindraje"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.cilindraje}"/>
+                        </p:column>                        
+                    </p:dataTable>
+
+                    <p:diagram id="diagrama" rendered="#{sesionUsuario.textoVista=='Tabla'}" value="#{sesionUsuario.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+
+                    <p:remoteCommand name="elementClickRight" 
+                                     actionListener="#{sesionUsuario.onClickRight()}" 
+                                     >
+                    </p:remoteCommand>
+
+                    <script>
+                        $(document).ready(function () {
+                            $('.ui-diagram > .ui-diagram-element').mousedown(function (info) {
+                                if (info.which === 3) {
+                                    elementClickRight([{
+                                            name: 'elementId',
+                                            value: info.target.id
+                                        }]);
+                                }
+                            });
+                        });
+                    </script>
+
+                    <p:contextMenu id="mnuDiagrama" for="diagrama"
+                                   targetFilter=".ui-diagram-element"
+                                   >
+                        <p:menuitem value="Ver datos" 
+                                    action="#{sesionUsuario.obtenerDiagramaUsuario()}" 
+                                    update="panelUsuariop"                                    
+                                    oncomplete="PF('dlgDatosUsuario').show();" />
+                        
+                        <p:menuitem value="Ver posición" 
+                                    action="#{sesionUsuario.obtenerPosicionUsuario()}"
+                                    update="panelPosicion"                                    
+                                    oncomplete="PF('dlgPosicionUsuario').show();" />
+                        <p:menuitem value="Eliminar"/>                        
+                        <p:menuitem value="Enviar al final" update="pnlVista"                                    
+                                    action="#{sesionUsuario.enviarAlFinal()}"/>
+                        <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
+                                    action="#{sesionUsuario.enviarAlInicio()}"                                    
+                                    /> 
+                        <p:menuitem value="Adelantar/Perder Posición"
+                                    action="#{sesionUsuario.obtenerPosicionUsuario()}"
+                                    update="panelGestionPosicion"                                    
+                                    oncomplete="PF('dlgGestionPosicionUsuario').show();"/>
+                    </p:contextMenu>
+                </p:panel>
+            </p:panel>
+                    <p:dialog id="posicionUsuario" header="Ver posición Usuario" widgetVar="dlgPosicionUsuario"
+                modal="true" height="50">                          
+                <h:panelGroup id="panelPosicion">
+                    <p:outputLabel value="Posición #{sesionUsuario.posicionUsuario}"/>
+                </h:panelGroup>
+            </p:dialog>
+            
+            <p:dialog id="gestionPosicionInfante" header="Adelantar/perder posición infante" 
+                      widgetVar="dlgGestionPosicionUsuario"
+                modal="true" height="150">                          
+                <h:panelGroup id="panelGestionPosicion">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Posición Actual"/>
+                        <p:outputLabel value="#{sesionUsuario.posicionUsuario}"/>
+                        <p:outputLabel value="Acción"/>
+                        <p:selectOneMenu value="#{sesionUsuario.opcionElegida}">
+                            <f:selectItem itemLabel="Ganar" itemValue="1"/>
+                            <f:selectItem itemLabel="Perder" itemValue="0"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Número posiciones"/>
+                        <p:spinner min="1" value="#{sesionUsuario.numeroPosiciones}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Aplicar" action="#{sesionUsuario.cambiarPosicion()}"
+                                     onclick="PF('dlgGestionPosicionUsuario').hide();"
+                                     ajax="false"
+                                      update="pnlVista"/>                  
+                </h:panelGroup>
+            </p:dialog>
+            <p:commandButton value="Salir" action="inicioSesion.xhtml" ajax="false"/>
+    </h:body>
+</html>
+

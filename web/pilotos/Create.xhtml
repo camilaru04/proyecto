@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PilotosCreateDlg" widgetVar="PilotosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePilotosTitle}">
+            <h:form id="PilotosCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pilotosController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{pilotosController.selected.id}" title="#{bundle.CreatePilotosTitle_id}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{pilotosController.selected.nombre}" title="#{bundle.CreatePilotosTitle_nombre}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_identificacion}" for="identificacion" />
+                        <p:inputText id="identificacion" value="#{pilotosController.selected.identificacion}" title="#{bundle.CreatePilotosTitle_identificacion}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_identificacion}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_nacionalidad}" for="nacionalidad" />
+                        <p:inputText id="nacionalidad" value="#{pilotosController.selected.nacionalidad}" title="#{bundle.CreatePilotosTitle_nacionalidad}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_nacionalidad}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_tipoMoto}" for="tipoMoto" />
+                        <p:inputText id="tipoMoto" value="#{pilotosController.selected.tipoMoto}" title="#{bundle.CreatePilotosTitle_tipoMoto}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_tipoMoto}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_colorMoto}" for="colorMoto" />
+                        <p:inputText id="colorMoto" value="#{pilotosController.selected.colorMoto}" title="#{bundle.CreatePilotosTitle_colorMoto}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_colorMoto}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_cilindraje}" for="cilindraje" />
+                        <p:inputText id="cilindraje" value="#{pilotosController.selected.cilindraje}" title="#{bundle.CreatePilotosTitle_cilindraje}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_cilindraje}"/>
+                        <p:outputLabel value="#{bundle.CreatePilotosLabel_tiempoclasifiacion}" for="tiempoclasifiacion" />
+                        <p:inputText id="tiempoclasifiacion" value="#{pilotosController.selected.tiempoclasifiacion}" title="#{bundle.CreatePilotosTitle_tiempoclasifiacion}" required="true" requiredMessage="#{bundle.CreatePilotosRequiredMessage_tiempoclasifiacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pilotosController.create}" value="#{bundle.Save}" update="display,:PilotosListForm:datalist,:growl" oncomplete="handleSubmit(args,'PilotosCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PilotosCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PilotosViewDlg" widgetVar="PilotosViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPilotosTitle}">
+            <h:form id="PilotosViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pilotosController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPilotosLabel_id}"/>
+                        <h:outputText value="#{pilotosController.selected.id}" title="#{bundle.ViewPilotosTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_nombre}"/>
+                        <h:outputText value="#{pilotosController.selected.nombre}" title="#{bundle.ViewPilotosTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_identificacion}"/>
+                        <h:outputText value="#{pilotosController.selected.identificacion}" title="#{bundle.ViewPilotosTitle_identificacion}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_nacionalidad}"/>
+                        <h:outputText value="#{pilotosController.selected.nacionalidad}" title="#{bundle.ViewPilotosTitle_nacionalidad}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_tipoMoto}"/>
+                        <h:outputText value="#{pilotosController.selected.tipoMoto}" title="#{bundle.ViewPilotosTitle_tipoMoto}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_colorMoto}"/>
+                        <h:outputText value="#{pilotosController.selected.colorMoto}" title="#{bundle.ViewPilotosTitle_colorMoto}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_cilindraje}"/>
+                        <h:outputText value="#{pilotosController.selected.cilindraje}" title="#{bundle.ViewPilotosTitle_cilindraje}"/>
+                        <h:outputText value="#{bundle.ViewPilotosLabel_tiempoclasifiacion}"/>
+                        <h:outputText value="#{pilotosController.selected.tiempoclasifiacion}" title="#{bundle.ViewPilotosTitle_tiempoclasifiacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PilotosViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
